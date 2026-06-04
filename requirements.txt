@@ -1,6 +1,8 @@
 fastapi
 uvicorn
-passlib
-jose
+passlib[bcrypt]
+python-jose[cryptography]
 jinja2
 reportlab
+python-dotenv
+groq
