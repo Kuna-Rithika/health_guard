@@ -1,5 +1,3 @@
-const API_URL = "https://health-guard-caq0.onrender.com";
-
 function setResult(content) {
     const resultEl = document.getElementById('result');
     if (!resultEl) return;
