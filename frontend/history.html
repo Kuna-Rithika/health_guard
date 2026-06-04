@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard History</title>
+    <link rel="stylesheet" href="css/history.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo">HealthGuard</div>
+    <ul>
+        <li onclick="location.href='profile.html'">👤 Profile</li>
+        <li onclick="location.href='dashboard.html'">🏠 Dashboard</li>
+        <li onclick="location.href='health_app.html'">🎤 Health Check</li>
+        <li class="active" onclick="location.href='history.html'">📜 History</li>
+        <li onclick="location.href='settings.html'">⚙ Settings</li>
+        <li onclick="logout()">🚪 Logout</li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <header class="topbar">
+        <div>
+            <h1><span class="page-title-icon">&#128221;</span> Medical History</h1>
+            <p id="historyStatus">Loading history...</p>
+        </div>
+    </header>
+
+    <div class="stats">
+        <div class="card">
+            <h2 id="totalRecords">0</h2>
+            <p>Total Reports</p>
+        </div>
+        <div class="card">
+            <h2 id="historyHealthScore">--</h2>
+            <p>Health Score</p>
+        </div>
+        <div class="card">
+            <h2 id="riskLevel">--</h2>
+            <p>Current Risk</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">Your timeline</h2>
+    <div id="timeline" class="timeline"></div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/history.js"></script>
+</body>
+</html>

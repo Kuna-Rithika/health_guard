@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.db
+healthguard.db
+.env
+.vscode/
+node_modules/
+.DS_Store
+/*.log

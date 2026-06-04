@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard Profile</title>
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo">HealthGuard</div>
+    <ul>
+        <li class="active" onclick="location.href='profile.html'">👤 Profile</li>
+        <li onclick="location.href='dashboard.html'">🏠 Dashboard</li>
+        <li onclick="location.href='health_app.html'">🎤 Health Check</li>
+        <li onclick="location.href='history.html'">📜 History</li>
+        <li onclick="location.href='settings.html'">⚙ Settings</li>
+        <li onclick="logout()">🚪 Logout</li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <header class="topbar">
+        <div>
+            <h1>Profile</h1>
+            <p id="profileStatus">Loading profile...</p>
+        </div>
+    </header>
+
+    <section class="profile-card">
+        <div class="profile-header">
+            <div class="avatar">👤</div>
+            <div>
+                <h2 id="userName">Loading...</h2>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3 id="userAge">--</h3>
+                <p>Age</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="riskLevel">--</h3>
+                <p>Risk Level</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="healthScore">--</h3>
+                <p>Health Score</p>
+            </div>
+        </div>
+
+        <div class="details">
+            <div class="info-box">
+                <div>
+                    <span class="label">User ID</span>
+                    <strong id="userId">--</strong>
+                </div>
+                <div>
+                    <span class="label">Email</span>
+                    <strong id="userEmail">--</strong>
+                </div>
+                <div>
+                    <span class="label">Current Condition</span>
+                    <div id="condition" class="condition-summary">No condition history</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="health-insights-section">
+            <h3>Health Patterns & Insights</h3>
+            
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h4>📊 Common Symptoms</h4>
+                    <div id="commonSymptoms" class="insight-content">Loading...</div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>⚠️ Health Trend</h4>
+                    <div id="healthTrend" class="insight-content">Loading...</div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>🎯 Possible Causes</h4>
+                    <div id="possibleCauses" class="insight-content">Analyzing your data...</div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>💡 Recommendations</h4>
+                    <div id="recommendations" class="insight-content">Loading recommendations...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/profile.js"></script>
+</body>
+</html>

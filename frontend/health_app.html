@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard Health Check</title>
+    <link rel="stylesheet" href="css/health_app.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo">HealthGuard</div>
+    <ul>
+        <li onclick="location.href='profile.html'">👤 Profile</li>
+        <li onclick="location.href='dashboard.html'">🏠 Dashboard</li>
+        <li class="active" onclick="location.href='health_app.html'">🎤 Health Check</li>
+        <li onclick="location.href='history.html'">📜 History</li>
+        <li onclick="location.href='settings.html'">⚙ Settings</li>
+        <li onclick="logout()">🚪 Logout</li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <header class="topbar">
+        <div>
+            <h1><span class="page-title-icon">&#129658;</span> Health Check</h1>
+            <p id="healthStatus">Describe your symptoms and get an AI-assisted summary.</p>
+        </div>
+    </header>
+
+    <section class="health-card">
+        <div class="health-input-group">
+            <label for="symptomInput">What are you feeling?</label>
+            <textarea id="symptomInput" placeholder="Describe your symptoms here..." rows="6"></textarea>
+            <div class="prompt-row">
+                <button type="button" class="prompt-chip" data-prompt="I have a headache and feel dizzy.">Headache</button>
+                <button type="button" class="prompt-chip" data-prompt="My eyes are red, itchy, and watery.">Eye irritation</button>
+                <button type="button" class="prompt-chip" data-prompt="I have ear pain and reduced hearing.">Ear pain</button>
+                <button type="button" class="prompt-chip" data-prompt="I have a blocked nose and sneezing.">Nose congestion</button>
+                <button type="button" class="prompt-chip" data-prompt="I have a sore throat and difficulty swallowing.">Sore throat</button>
+                <button type="button" class="prompt-chip" data-prompt="I have chest pain and pressure.">Chest pain</button>
+                <button type="button" class="prompt-chip" data-prompt="I have stomach pain, nausea, and vomiting.">Stomach pain</button>
+                <button type="button" class="prompt-chip" data-prompt="I have diarrhea and stomach cramps.">Diarrhea</button>
+                <button type="button" class="prompt-chip" data-prompt="I have knee pain while walking.">Knee pain</button>
+                <button type="button" class="prompt-chip" data-prompt="My legs are swollen and painful.">Leg swelling</button>
+                <button type="button" class="prompt-chip" data-prompt="I have lower back pain.">Back pain</button>
+                <button type="button" class="prompt-chip" data-prompt="I have an itchy skin rash.">Skin rash</button>
+                <button type="button" class="prompt-chip" data-prompt="I have fever and body aches.">Fever</button>
+                <button type="button" class="prompt-chip" data-prompt="I feel tired and weak.">Fatigue</button>
+            </div>
+            <div class="button-row">
+                <button id="voiceButton" type="button">🎤 Speak</button>
+                <button id="analyzeButton" type="button">Analyze</button>
+            </div>
+            <p class="safety-note">
+                HealthGuard provides AI-assisted risk awareness, not a medical diagnosis. Seek urgent care for severe or emergency symptoms.
+            </p>
+        </div>
+    </section>
+
+    <section class="result-card">
+        <div class="result-header">
+            <h2>AI Assessment Result</h2>
+        </div>
+        <div id="result" class="result-content">
+            <p>Submit symptoms to see your latest analysis.</p>
+        </div>
+    </section>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/health_app.js"></script>
+</body>
+</html>

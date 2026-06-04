@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - HealthGuard</title>
+    <link rel="stylesheet" href="css/info.css">
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo">HealthGuard</div>
+    <ul>
+        <li onclick="location.href='dashboard.html'">🏠 Dashboard</li>
+        <li onclick="location.href='health_app.html'">🎤 Health Check</li>
+        <li onclick="location.href='history.html'">📜 History</li>
+        <li onclick="location.href='profile.html'">👤 Profile</li>
+        <li onclick="location.href='settings.html'">⚙ Settings</li>
+        <li class="active" onclick="location.href='privacy.html'">🔒 Privacy</li>
+        <li onclick="logout()">🚪 Logout</li>
+    </ul>
+</div>
+<div class="main-content">
+    <header class="topbar">
+        <div>
+            <h1>Privacy Policy</h1>
+            <p>How HealthGuard collects and protects your data.</p>
+        </div>
+    </header>
+    <section class="info-card">
+        <h2>Privacy is our priority</h2>
+        <p>HealthGuard respects your privacy and is committed to protecting your personal information. This policy explains the types of data we collect and how we use it.</p>
+        <div class="info-block">
+            <h3>What we collect</h3>
+            <ul>
+                <li>Basic account information such as name, email, and user ID.</li>
+                <li>Health input and symptom data needed for analysis.</li>
+                <li>Usage preferences to personalize the app experience.</li>
+            </ul>
+        </div>
+        <div class="info-block">
+            <h3>How we use it</h3>
+            <ul>
+                <li>To generate health reports and recommendations.</li>
+                <li>To keep your preferences saved across sessions.</li>
+                <li>To improve our service without sharing personal details.</li>
+            </ul>
+        </div>
+        <div class="info-block">
+            <h3>Security</h3>
+            <p>We store data locally and use best practices to keep it safe. Sensitive data is never shared without your consent.</p>
+        </div>
+    </section>
+</div>
+<script src="js/utils.js"></script>
+<script>ensureLoggedInRedirect();</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - HealthGuard</title>
+    <link rel="stylesheet" href="css/info.css">
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo">HealthGuard</div>
+    <ul>
+        <li onclick="location.href='dashboard.html'">🏠 Dashboard</li>
+        <li onclick="location.href='health_app.html'">🎤 Health Check</li>
+        <li onclick="location.href='history.html'">📜 History</li>
+        <li onclick="location.href='profile.html'">👤 Profile</li>
+        <li onclick="location.href='settings.html'">⚙ Settings</li>
+        <li class="active" onclick="location.href='support.html'">🛠 Support</li>
+        <li onclick="logout()">🚪 Logout</li>
+    </ul>
+</div>
+<div class="main-content">
+    <header class="topbar">
+        <div>
+            <h1>Help & Support</h1>
+            <p>Need assistance? Find help here.</p>
+        </div>
+    </header>
+    <section class="info-card">
+        <h2>Support resources</h2>
+        <p>We’re here to help you get the most from HealthGuard.</p>
+        <div class="info-block">
+            <h3>Frequently Asked Questions</h3>
+            <ul>
+                <li><strong>How do I update my profile?</strong> Visit the Profile page and edit your details.</li>
+                <li><strong>How do I change my settings?</strong> Open Settings to customize notifications, privacy, and app preferences.</li>
+                <li><strong>What if my health data is incorrect?</strong> Review your inputs and contact support if you need help.</li>
+            </ul>
+        </div>
+        <div class="info-block">
+            <h3>Contact support</h3>
+            <p>Email us at <a href="mailto:support@healthguard.example.com">support@healthguard.example.com</a> for technical help or feedback.</p>
+        </div>
+        <div class="info-block">
+            <h3>Need immediate help?</h3>
+            <p>If you are experiencing a medical emergency, contact a healthcare professional or emergency services right away.</p>
+        </div>
+    </section>
+</div>
+<script src="js/utils.js"></script>
+<script>ensureLoggedInRedirect();</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard Login</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<main class="auth-shell">
+    <section class="brand-panel">
+        <div class="brand-mark">HG</div>
+        <h1>HealthGuard</h1>
+        <p>AI-assisted symptom screening, risk awareness, and health history in one place.</p>
+    </section>
+
+    <section class="login-card">
+        <p class="eyebrow">Secure access</p>
+        <h2>Welcome back</h2>
+
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <p class="signup-link">
+            New user?
+            <a href="signup.html">Create account</a>
+        </p>
+
+        <div id="message"></div>
+    </section>
+</main>
+
+<script src="js/login.js"></script>
+</body>
+</html>

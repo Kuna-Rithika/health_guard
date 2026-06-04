@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard Signup</title>
+    <link rel="stylesheet" href="css/signup.css">
+</head>
+<body>
+
+<main class="signup-container">
+    <section class="left-panel">
+        <div class="brand-mark">HG</div>
+        <h1>HealthGuard</h1>
+        <h2>Create your account</h2>
+        <p>
+            Track symptoms, answer guided clarification questions, and keep a simple history
+            for better health conversations.
+        </p>
+    </section>
+
+    <section class="right-panel">
+        <div class="signup-card">
+            <p class="eyebrow">Get started</p>
+            <h2>Sign up</h2>
+
+            <input type="text" id="fullName" placeholder="Full name">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <input type="number" id="age" placeholder="Age">
+
+            <select id="gender">
+                <option value="">Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <button onclick="signup()">Create account</button>
+
+            <p class="login-link">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </p>
+
+            <div id="message"></div>
+        </div>
+    </section>
+</main>
+
+<script src="js/signup.js"></script>
+</body>
+</html>

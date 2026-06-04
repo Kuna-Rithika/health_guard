@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - HealthGuard</title>
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo">HealthGuard</div>
+    <ul>
+        <li onclick="location.href='profile.html'">👤 Profile</li>
+        <li onclick="location.href='dashboard.html'">🏠 Dashboard</li>
+        <li onclick="location.href='health_app.html'">🎤 Health Check</li>
+        <li onclick="location.href='history.html'">📜 History</li>
+        <li class="active" onclick="location.href='settings.html'">⚙ Settings</li>
+        <li onclick="logout()">🚪 Logout</li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <header class="topbar">
+        <div>
+            <h1>Settings</h1>
+            <p id="settingsUser">Loading account details...</p>
+        </div>
+    </header>
+
+    <section class="settings-card">
+
+        <div class="user-summary">
+            <div class="avatar">⚙</div>
+            <div>
+                <h2 id="settingsName">User</h2>
+                <p id="settingsEmail">email@example.com</p>
+            </div>
+        </div>
+
+        <div class="settings-grid">
+
+            <div class="settings-section">
+                <h3>General</h3>
+                <div class="form-group">
+                    <div>
+                        <span>Theme mode</span>
+                        <p>Choose a light or dark app appearance.</p>
+                    </div>
+                    <button id="themeToggle">Switch to dark mode</button>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <span>Notifications</span>
+                        <p>Enable or disable alerts.</p>
+                    </div>
+                    <button id="notificationsToggle">Notifications ON</button>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <span>Location</span>
+                        <p>Allow the app to use your location.</p>
+                    </div>
+                    <button id="locationToggle">Location ON</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Display & Brightness</h3>
+                <div class="form-group range-group">
+                    <div>
+                        <span>Brightness</span>
+                        <p>Adjust the UI brightness level.</p>
+                    </div>
+                    <div class="range-control">
+                        <input id="brightnessRange" type="range" min="30" max="100" step="5">
+                        <span id="brightnessValue">80%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Privacy & Security</h3>
+                <div class="form-group">
+                    <div>
+                        <span>App lock PIN</span>
+                        <p>Require a PIN to open the app.</p>
+                    </div>
+                    <button id="pinToggle">PIN OFF</button>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <span>Fingerprint unlock</span>
+                        <p>Use biometrics to unlock quickly.</p>
+                    </div>
+                    <button id="fingerprintToggle">Fingerprint OFF</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Health Preferences</h3>
+                <div class="form-group">
+                    <div>
+                        <span>Daily step goal</span>
+                        <p>Choose a target for your daily activity.</p>
+                    </div>
+                    <input id="stepGoal" type="number" min="1000" step="500">
+                </div>
+                <div class="form-group">
+                    <div>
+                        <span>Sleep tracking</span>
+                        <p>Receive sleep habit reminders.</p>
+                    </div>
+                    <button id="sleepToggle">Sleep ON</button>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <span>Fitness reminders</span>
+                        <p>Get motivated to move each day.</p>
+                    </div>
+                    <button id="fitnessToggle">Fitness ON</button>
+                </div>
+            </div>
+
+            <div class="settings-section about-section">
+                <h3>About</h3>
+                <div class="about-links">
+                    <button type="button" class="link-button" onclick="window.open('privacy.html','_blank')">Privacy Policy</button>
+                    <button type="button" class="link-button" onclick="window.open('terms.html','_blank')">Terms & Conditions</button>
+                    <button type="button" class="link-button" onclick="window.open('support.html','_blank')">Help & Support</button>
+                </div>
+                <div class="feedback-form">
+                    <label for="feedbackInput">Feedback</label>
+                    <textarea id="feedbackInput" placeholder="Share a suggestion or report an issue..."></textarea>
+                    <button id="submitFeedback" type="button">Send feedback</button>
+                    <p id="feedbackMessage" class="feedback-message"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="js/utils.js"></script>
+<script>ensureLoggedInRedirect();</script>
+<script src="js/settings.js"></script>
+
+</body>
+</html>

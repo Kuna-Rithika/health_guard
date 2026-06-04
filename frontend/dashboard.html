@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo">
+        <img class="sidebar-logo" src="assets/logo.jpg" alt="HealthGuard logo">
+        <span>HealthGuard</span>
+    </div>
+    <ul>
+        <li onclick="location.href='index.html'">🏠 Home</li>
+        <li onclick="location.href='profile.html'">Profile</li>
+        <li class="active">Dashboard</li>
+        <li onclick="location.href='health_app.html'">Health Check</li>
+        <li onclick="location.href='history.html'">History</li>
+        <li onclick="location.href='settings.html'">Settings</li>
+        <li onclick="logout()">Logout</li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <div class="topbar">
+        <div>
+            <h1><span class="title-icon">&#128075;</span><span id="welcomeMessage">Welcome back</span></h1>
+            <p>Your analysis reports and personal health overview</p>
+        </div>
+        <div class="topbar-actions">
+            <button id="themeToggle">Dark Mode</button>
+            <button id="downloadReportButton" type="button">Download Report</button>
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="card gradient1">
+            <h2 id="healthScore">--</h2>
+            <p>Health Score</p>
+        </div>
+
+        <div class="card gradient2">
+            <h2 id="reportsCount">--</h2>
+            <p>Total Reports</p>
+        </div>
+
+        <div class="card gradient3">
+            <h2 id="riskValue">--</h2>
+            <p>Risk Level</p>
+        </div>
+
+        <div class="card gradient4">
+            <h2>AI</h2>
+            <p>Decision Support</p>
+        </div>
+    </div>
+
+    <section class="dashboard-section">
+        <div class="panel insights-panel">
+            <h3><span class="panel-icon">&#129504;</span> AI Insights</h3>
+            <ul>
+                <li>Symptoms may match more than one condition</li>
+                <li>Risk level is based on severity and warning signs</li>
+                <li>Possible cases are not a confirmed diagnosis</li>
+                <li>Seek medical care for severe or worsening symptoms</li>
+            </ul>
+        </div>
+
+        <div class="panel charts-panel">
+            <h3>Recent Activity</h3>
+            <p>Last analysis: Today</p>
+            <p>Latest symptom: <span id="latestSymptom">--</span></p>
+            <p>Reports generated: <span id="reportsGenerated">--</span></p>
+            <div class="chart-wrap">
+                <canvas id="riskChart" width="400" height="200"></canvas>
+            </div> <br> 
+            <p><b>Symptom frequency</b></p>
+            <div class="chart-wrap tall-chart">
+                <canvas id="symptomChart" width="400" height="260" aria-label="Symptom frequency chart"></canvas>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/dashboard.js"></script>
+<script>ensureLoggedInRedirect();</script>
+<script>
+async function downloadReport() {
+    const userId = localStorage.getItem('user_id');
+    if (!userId) return alert('Not logged in');
+
+    const resp = await fetch(`http://127.0.0.1:8000/report/${userId}`);
+    if (!resp.ok) return alert('Failed to generate report');
+
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `HealthGuard_Report_${userId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('downloadReportButton')?.addEventListener('click', downloadReport);
+</script>
+
+</body>
+</html>

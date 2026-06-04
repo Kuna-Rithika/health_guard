@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - HealthGuard</title>
+    <link rel="stylesheet" href="css/info.css">
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo">HealthGuard</div>
+    <ul>
+        <li onclick="location.href='dashboard.html'">🏠 Dashboard</li>
+        <li onclick="location.href='health_app.html'">🎤 Health Check</li>
+        <li onclick="location.href='history.html'">📜 History</li>
+        <li onclick="location.href='profile.html'">👤 Profile</li>
+        <li onclick="location.href='settings.html'">⚙ Settings</li>
+        <li class="active" onclick="location.href='terms.html'">📄 Terms</li>
+        <li onclick="logout()">🚪 Logout</li>
+    </ul>
+</div>
+<div class="main-content">
+    <header class="topbar">
+        <div>
+            <h1>Terms & Conditions</h1>
+            <p>Understand the rules for using HealthGuard.</p>
+        </div>
+    </header>
+    <section class="info-card">
+        <h2>Welcome to HealthGuard</h2>
+        <p>By using HealthGuard, you agree to the following terms. Please read them carefully.</p>
+        <div class="info-block">
+            <h3>Use of the app</h3>
+            <ul>
+                <li>HealthGuard is designed to support wellness tracking and is not a replacement for medical advice.</li>
+                <li>Use the app responsibly and consult a professional for urgent health concerns.</li>
+            </ul>
+        </div>
+        <div class="info-block">
+            <h3>User responsibilities</h3>
+            <ul>
+                <li>Keep your login details secure.</li>
+                <li>Provide accurate information for the best results.</li>
+            </ul>
+        </div>
+        <div class="info-block">
+            <h3>Updates</h3>
+            <p>We may update these terms over time. Continued use after changes means you accept the revised terms.</p>
+        </div>
+    </section>
+</div>
+<script src="js/utils.js"></script>
+<script>ensureLoggedInRedirect();</script>
+</body>
+</html>
