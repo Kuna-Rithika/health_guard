@@ -1,69 +1,87 @@
 # HealthGuard
 
-HealthGuard is a small FastAPI + static frontend project demonstrating an AI-assisted health assistant.
+An AI-powered Multi-Agent Health Assistant that analyzes symptoms, assesses health risks, tracks medical history, and provides personalized wellness recommendations through voice or text input.
 
-## Requirements
-- Python 3.10+
-- pip
+## Problem Statement
 
-Install dependencies:
+Many people ignore early symptoms until conditions become serious. Traditional symptom checkers are often static, non-personalized, and unable to learn from a user's health history.
+
+## Solution
+
+HealthGuard uses a team of specialized AI agents that work together to analyze symptoms, detect patterns, assess risk levels, predict potential health concerns, and provide personalized guidance. The system maintains user health history and delivers intelligent recommendations in real time.
+
+## 8 AI Agents
+
+* Security Agent – Validates and sanitizes user input
+* Symptom Agent – Extracts symptom information
+* Clarification Agent – Identifies missing details
+* Pattern Detection Agent – Detects recurring health issues
+* Risk Assessment Agent – Calculates health risk levels
+* Predictive Agent – Predicts future health concerns
+* Emergency Agent – Provides emergency guidance
+* Wellness Agent – Recommends lifestyle improvements
+
+## Tech Stack
+
+Tech Stack
+Frontend: HTML, CSS, JavaScript, Web Speech API
+Backend: FastAPI, Python. JWT Authentication
+Database: SQLite
+AI: Groq API, Multi-Agent Architecture
+Reporting: ReportLab PDF Generator
+
+## How to Run
+
+### Install Dependencies
 
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-## Initialize Database
+### Initialize Database
 
 ```bash
 python backend/database.py
 ```
 
-This creates `healthguard.db` and seeds demo users.
-
-## Run Backend
-
-Start the backend API server:
+### Run Backend
 
 ```bash
 python -m uvicorn backend.main:app --reload --port 8000
 ```
 
-## Serve Frontend
-
-The frontend is static files in the `frontend/` folder. To serve locally:
+### Serve Frontend
 
 ```bash
 cd frontend
 python -m http.server 8001
-# then open http://127.0.0.1:8001/dashboard.html
 ```
 
-Alternatively open the HTML files directly in your browser, but some browsers restrict `fetch()` on file:// URLs.
+Open:
+
+```text
+http://127.0.0.1:8001
+```
+
+Backend API Docs:
+
+```text
+http://127.0.0.1:8000/docs
+```
 
 ## Features
-- Signup / Login (stores `user_id`, `user_name`, `token` in localStorage)
-- Dashboard that loads user data and history dynamically
-- Health analysis endpoint that runs AI pipeline and saves history
-- PDF report generation endpoint: `/report/{user_id}`
-- Chart.js visualizations on dashboard
 
-## Useful commands (Windows PowerShell)
+* User Signup and Login
+* Voice-Based Symptom Input
+* Multi-Agent AI Analysis
+* Risk Classification (LOW / MEDIUM / HIGH / CRITICAL)
+* Personalized Health Recommendations
+* Dynamic Dashboard
+* User Profile Management
+* Health History Tracking
+* PDF Report Generation
+* Real-Time AI Response
 
-```powershell
-# install deps
-python -m pip install -r requirements.txt
+## Workflow
 
-# init DB
-python backend/database.py
-
-# start backend
-python -m uvicorn backend.main:app --reload --port 8000
-
-# serve frontend
-Push-Location frontend; python -m http.server 8001; Pop-Location
-```
-
-## Notes
-- The AI agents use a mock/local `groq_service` interface — replace with a real LLM service for production.
-- The `report_generator` uses ReportLab to produce PDFs.
-
+User Login → Voice/Text Symptom Input → AI Analysis → Pattern Detection → Risk Assessment → Predictive Analysis → Emergency/Wellness Response → History Storage → Report Generation
