@@ -14,10 +14,6 @@ app = FastAPI(
     description="Multi-Agent AI Health Assistant",
     version="1.0.0"
 )
-app.include_router(auth_router)
-app.include_router(health_router)
-app.include_router(history_router)
-
 # Allow frontend access
 app.add_middleware(
     CORSMiddleware,
@@ -26,6 +22,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth_router)
+app.include_router(health_router)
+app.include_router(history_router)
 
 # =====================================================
 # ROOT
