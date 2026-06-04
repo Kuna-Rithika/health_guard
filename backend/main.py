@@ -4,7 +4,7 @@ from datetime import datetime
 from .auth import router as auth_router
 from .health_routes import router as health_router
 from .history_routes import router as history_router
-from .database import get_connection
+from .database import get_connection, initialize_database
 from .report_generator import generate_report_pdf
 from fastapi.responses import StreamingResponse, JSONResponse
 from io import BytesIO
@@ -24,6 +24,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+def startup():
+    initialize_database()
 
 app.include_router(auth_router)
 app.include_router(health_router)
