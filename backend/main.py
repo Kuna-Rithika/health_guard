@@ -6,7 +6,7 @@ from .health_routes import router as health_router
 from .history_routes import router as history_router
 from .database import get_connection
 from .report_generator import generate_report_pdf
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, JSONResponse
 from io import BytesIO
 
 app = FastAPI(
@@ -14,11 +14,13 @@ app = FastAPI(
     description="Multi-Agent AI Health Assistant",
     version="1.0.0"
 )
-# Allow frontend access
+
+# ✅ CORS - must be first
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_origin_regex=".*",
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
