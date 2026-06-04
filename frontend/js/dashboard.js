@@ -12,8 +12,7 @@ if (btn) {
     });
 }
 
-const API_URL =
-"https://healthguard-backend-reg8.onrender.com";
+const API_URL = "https://health-guard-caq0.onrender.com";
 
 function toTitleCase(value) {
     return value

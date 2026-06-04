@@ -1,5 +1,4 @@
-const API_URL =
-"https://healthguard-backend-reg8.onrender.com";
+const API_URL = "https://health-guard-caq0.onrender.com";
 
 console.log("Signup button clicked");
 async function signup(){
