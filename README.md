@@ -23,12 +23,11 @@ HealthGuard uses a team of specialized AI agents that work together to analyze s
 
 ## Tech Stack
 
-Tech Stack
-Frontend: HTML, CSS, JavaScript, Web Speech API
-Backend: FastAPI, Python. JWT Authentication
-Database: SQLite
-AI: Groq API, Multi-Agent Architecture
-Reporting: ReportLab PDF Generator
+- Frontend: HTML, CSS, JavaScript, Web Speech API
+- Backend: FastAPI, Python, JWT Authentication
+- Database: SQLite
+- AI: Groq API, Multi-Agent Architecture
+- Reporting: ReportLab PDF Generator
 
 ## How to Run
 
