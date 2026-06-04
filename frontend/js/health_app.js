@@ -1,3 +1,5 @@
+const API_URL =
+"https://healthguard-backend-reg8.onrender.com";
 
 function setResult(content) {
     const resultEl = document.getElementById('result');

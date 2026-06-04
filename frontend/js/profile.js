@@ -1,4 +1,5 @@
-﻿const API_URL = "http://127.0.0.1:8000";
+﻿const API_URL =
+"https://healthguard-backend-reg8.onrender.com";
 
 function setText(id, value) {
     const el = document.getElementById(id);
