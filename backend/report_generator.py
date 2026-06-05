@@ -1,14 +1,12 @@
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-from reportlab.lib.utils import simpleSplit
 from datetime import datetime
 
 from .database import get_connection
 
 
 def wrap_text(text, max_width=80):
-    """Wrap text to fit within specified width"""
     if not text:
         return []
     words = text.split()
@@ -33,24 +31,20 @@ def generate_report_pdf(user_id: int) -> bytes:
     conn = get_connection()
     cursor = conn.cursor()
 
-    user = cursor.execute(
-        """
+    cursor.execute("""
         SELECT id, full_name, email, age, gender, created_at
         FROM users
-        WHERE id = ?
-        """,
-        (user_id,)
-    ).fetchone()
+        WHERE id = %s
+    """, (user_id,))
+    user = cursor.fetchone()
 
-    rows = cursor.execute(
-        """
+    cursor.execute("""
         SELECT id, symptoms, risk_level, risk_score, ai_summary, created_at
         FROM symptom_history
-        WHERE user_id = ?
+        WHERE user_id = %s
         ORDER BY id DESC
-        """,
-        (user_id,)
-    ).fetchall()
+    """, (user_id,))
+    rows = cursor.fetchall()
 
     conn.close()
 
@@ -59,10 +53,9 @@ def generate_report_pdf(user_id: int) -> bytes:
     width, height = letter
     left_margin = 50
     right_margin = width - 50
-    max_width = right_margin - left_margin
 
     y = height - 50
-    
+
     # Title
     p.setFont("Helvetica-Bold", 18)
     p.drawString(left_margin, y, "HealthGuard - Patient Health Report")
@@ -81,13 +74,13 @@ def generate_report_pdf(user_id: int) -> bytes:
         y -= 16
 
         p.setFont("Helvetica", 10)
-        p.drawString(left_margin, y, f"Name: {user['full_name']}")
+        p.drawString(left_margin, y, f"Name: {user[1]}")
         y -= 14
-        p.drawString(left_margin, y, f"Patient ID: {user['id']}")
+        p.drawString(left_margin, y, f"Patient ID: {user[0]}")
         y -= 14
-        p.drawString(left_margin, y, f"Email: {user['email']}")
+        p.drawString(left_margin, y, f"Email: {user[2]}")
         y -= 14
-        p.drawString(left_margin, y, f"Age: {user['age']}, Gender: {user['gender'] or 'Not specified'}")
+        p.drawString(left_margin, y, f"Age: {user[3]}, Gender: {user[4] or 'Not specified'}")
         y -= 20
 
     # Health sessions
@@ -108,13 +101,13 @@ def generate_report_pdf(user_id: int) -> bytes:
         y -= 12
 
         p.setFont("Helvetica", 9)
-        p.drawString(left_margin, y, f"Date: {row['created_at']}")
+        p.drawString(left_margin, y, f"Date: {row[5]}")
         y -= 11
-        p.drawString(left_margin, y, f"Risk Level: {row['risk_level']} (Score: {row['risk_score']})")
+        p.drawString(left_margin, y, f"Risk Level: {row[2]} (Score: {row[3]})")
         y -= 12
 
         # Symptoms
-        symptoms = row['symptoms'] or 'No symptoms recorded'
+        symptoms = row[1] or 'No symptoms recorded'
         p.setFont("Helvetica-Bold", 9)
         p.drawString(left_margin, y, "Symptoms:")
         y -= 11
@@ -123,9 +116,9 @@ def generate_report_pdf(user_id: int) -> bytes:
         for line in symptom_lines[:3]:
             p.drawString(left_margin + 20, y, line)
             y -= 10
-        
+
         # Summary
-        summary = (row['ai_summary'] or 'No summary available').strip()
+        summary = (row[4] or 'No summary available').strip()
         p.setFont("Helvetica-Bold", 9)
         p.drawString(left_margin, y, "AI Summary:")
         y -= 11
@@ -134,7 +127,7 @@ def generate_report_pdf(user_id: int) -> bytes:
         for line in summary_lines[:5]:
             p.drawString(left_margin + 20, y, line)
             y -= 10
-        
+
         y -= 8
 
     # Footer

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta
-import sqlite3
+from .database import get_connection
 
 router = APIRouter()
 
@@ -14,9 +14,6 @@ pwd_context = CryptContext(
     schemes=["pbkdf2_sha256"],
     deprecated="auto"
 )
-
-DB_NAME = "healthguard.db"
-
 
 # =====================================================
 # MODELS
@@ -29,55 +26,30 @@ class SignupRequest(BaseModel):
     age: int = None
     gender: str = None
 
-
 class LoginRequest(BaseModel):
     email: str
     password: str
-
-
-# =====================================================
-# DATABASE
-# =====================================================
-
-def get_connection():
-
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row
-
-    return conn
-
 
 # =====================================================
 # PASSWORD
 # =====================================================
 
 def hash_password(password):
-
     return pwd_context.hash(password)
 
-
 def verify_password(password, hashed):
-
     return pwd_context.verify(password, hashed)
-
 
 # =====================================================
 # JWT
 # =====================================================
 
 def create_token(user_id):
-
     payload = {
         "user_id": user_id,
         "exp": datetime.utcnow() + timedelta(days=1)
     }
-
-    return jwt.encode(
-        payload,
-        SECRET_KEY,
-        algorithm=ALGORITHM
-    )
-
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 # =====================================================
 # SIGNUP
@@ -85,54 +57,35 @@ def create_token(user_id):
 
 @router.post("/signup")
 def signup(user: SignupRequest):
-
     conn = get_connection()
     cursor = conn.cursor()
 
-    existing = cursor.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE email = ?
-        """,
+    cursor.execute(
+        "SELECT * FROM users WHERE email = %s",
         (user.email,)
-    ).fetchone()
+    )
+    existing = cursor.fetchone()
 
     if existing:
-
+        conn.close()
         raise HTTPException(
             status_code=400,
             detail="Email already registered"
         )
 
-    hashed_password = hash_password(
-        user.password
-    )
+    hashed_password = hash_password(user.password)
 
     cursor.execute(
         """
-        INSERT INTO users(
-            full_name,
-            email,
-            password,
-            age,
-            gender
-        )
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO users(full_name, email, password, age, gender)
+        VALUES (%s, %s, %s, %s, %s)
+        RETURNING id
         """,
-        (
-            user.full_name,
-            user.email,
-            hashed_password,
-            user.age,
-            user.gender
-        )
+        (user.full_name, user.email, hashed_password, user.age, user.gender)
     )
 
+    user_id = cursor.fetchone()[0]
     conn.commit()
-
-    user_id = cursor.lastrowid
-
     conn.close()
 
     token = create_token(user_id)
@@ -144,55 +97,42 @@ def signup(user: SignupRequest):
         "user_id": user_id
     }
 
-
 # =====================================================
 # LOGIN
 # =====================================================
 
 @router.post("/login")
 def login(data: LoginRequest):
-
     conn = get_connection()
     cursor = conn.cursor()
 
-    user = cursor.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE email = ?
-        """,
+    cursor.execute(
+        "SELECT * FROM users WHERE email = %s",
         (data.email,)
-    ).fetchone()
-
+    )
+    user = cursor.fetchone()
     conn.close()
 
     if not user:
-
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password"
         )
 
-    if not verify_password(
-        data.password,
-        user["password"]
-    ):
-
+    if not verify_password(data.password, user[3]):
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password"
         )
 
-    token = create_token(
-        user["id"]
-    )
+    token = create_token(user[0])
 
     return {
         "success": True,
         "token": token,
         "user": {
-            "id": user["id"],
-            "name": user["full_name"],
-            "email": user["email"]
+            "id": user[0],
+            "name": user[1],
+            "email": user[2]
         }
     }

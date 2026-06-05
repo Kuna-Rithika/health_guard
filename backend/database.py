@@ -1,27 +1,22 @@
-import sqlite3
-from pathlib import Path
+import psycopg2
+import os
 
-DB_NAME = "healthguard.db"
-
+DB_URL = os.environ.get(
+    "DATABASE_URL",
+    "postgresql://neondb_owner:npg_9VTs7DPxtZIA@ep-delicate-lake-apgg4j7n-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require"
+)
 
 def get_connection():
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(DB_URL)
     return conn
 
-
 def create_tables():
-
     conn = get_connection()
     cursor = conn.cursor()
 
-    # ==================================================
-    # USERS
-    # ==================================================
-
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         full_name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
@@ -31,152 +26,71 @@ def create_tables():
     )
     """)
 
-    # ==================================================
-    # SYMPTOM HISTORY
-    # ==================================================
-
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS symptom_history(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         user_id INTEGER,
         symptoms TEXT,
         risk_level TEXT,
         risk_score INTEGER,
         ai_summary TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-        FOREIGN KEY(user_id)
-        REFERENCES users(id)
+        FOREIGN KEY(user_id) REFERENCES users(id)
     )
     """)
 
-    # ==================================================
-    # HEALTH REPORTS
-    # ==================================================
-
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS health_reports(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         user_id INTEGER,
         report_type TEXT,
         report_content TEXT,
         generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-        FOREIGN KEY(user_id)
-        REFERENCES users(id)
+        FOREIGN KEY(user_id) REFERENCES users(id)
     )
     """)
 
-    # ==================================================
-    # PREDICTIONS
-    # ==================================================
-
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS predictions(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         user_id INTEGER,
         prediction TEXT,
         confidence REAL,
         generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-        FOREIGN KEY(user_id)
-        REFERENCES users(id)
+        FOREIGN KEY(user_id) REFERENCES users(id)
     )
     """)
 
     conn.commit()
     conn.close()
 
-
-# ======================================================
-# DEMO USERS
-# ======================================================
-
 def seed_demo_users():
-
     conn = get_connection()
     cursor = conn.cursor()
 
     demo_users = [
-
-        (
-            "John Smith",
-            "john@gmail.com",
-            "john123",
-            52,
-            "Male"
-        ),
-
-        (
-            "Sarah Johnson",
-            "sarah@gmail.com",
-            "sarah123",
-            28,
-            "Female"
-        ),
-
-        (
-            "Mike Brown",
-            "mike@gmail.com",
-            "mike123",
-            35,
-            "Male"
-        ),
-
-        (
-            "Emma Wilson",
-            "emma@gmail.com",
-            "emma123",
-            40,
-            "Female"
-        ),
-
-        (
-            "David Lee",
-            "david@gmail.com",
-            "david123",
-            65,
-            "Male"
-        ),
-
-        (
-            "Olivia Martin",
-            "olivia@gmail.com",
-            "olivia123",
-            58,
-            "Female"
-        )
-
+        ("John Smith", "john@gmail.com", "john123", 52, "Male"),
+        ("Sarah Johnson", "sarah@gmail.com", "sarah123", 28, "Female"),
+        ("Mike Brown", "mike@gmail.com", "mike123", 35, "Male"),
+        ("Emma Wilson", "emma@gmail.com", "emma123", 40, "Female"),
+        ("David Lee", "david@gmail.com", "david123", 65, "Male"),
+        ("Olivia Martin", "olivia@gmail.com", "olivia123", 58, "Female")
     ]
 
     for user in demo_users:
-
         cursor.execute("""
-        INSERT OR IGNORE INTO users(
-            full_name,
-            email,
-            password,
-            age,
-            gender
-        )
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO users(full_name, email, password, age, gender)
+        VALUES (%s, %s, %s, %s, %s)
+        ON CONFLICT (email) DO NOTHING
         """, user)
 
     conn.commit()
     conn.close()
 
-
-# ======================================================
-# DATABASE INITIALIZATION
-# ======================================================
-
 def initialize_database():
-
     create_tables()
     seed_demo_users()
-
     print("HealthGuard Database Ready")
-
 
 if __name__ == "__main__":
     initialize_database()

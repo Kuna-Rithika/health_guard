@@ -6,7 +6,7 @@ from .health_routes import router as health_router
 from .history_routes import router as history_router
 from .database import get_connection, initialize_database
 from .report_generator import generate_report_pdf
-from fastapi.responses import StreamingResponse, JSONResponse
+from fastapi.responses import StreamingResponse
 from io import BytesIO
 
 app = FastAPI(
@@ -15,7 +15,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# ✅ CORS - must be first
+# CORS first
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -46,7 +46,6 @@ def root():
         "time": datetime.now()
     }
 
-
 # =====================================================
 # HEALTH CHECK
 # =====================================================
@@ -58,7 +57,6 @@ def health_check():
         "message": "HealthGuard Backend Running"
     }
 
-
 # =====================================================
 # USERS
 # =====================================================
@@ -68,22 +66,20 @@ def get_users():
     conn = get_connection()
     cursor = conn.cursor()
 
-    rows = cursor.execute(
-        """
+    cursor.execute("""
         SELECT id, full_name, email, age, gender
         FROM users
-        """
-    ).fetchall()
-
+    """)
+    rows = cursor.fetchall()
     conn.close()
 
     users = [
         {
-            "id": row["id"],
-            "name": row["full_name"],
-            "email": row["email"],
-            "age": row["age"],
-            "gender": row["gender"]
+            "id": row[0],
+            "name": row[1],
+            "email": row[2],
+            "age": row[3],
+            "gender": row[4]
         }
         for row in rows
     ]
@@ -93,55 +89,51 @@ def get_users():
         "users": users
     }
 
-
 @app.get("/users/{user_id}")
 def get_user(user_id: int):
     conn = get_connection()
     cursor = conn.cursor()
 
-    user_row = cursor.execute(
-        """
+    cursor.execute("""
         SELECT id, full_name, email, age, gender
         FROM users
-        WHERE id = ?
-        """,
-        (user_id,)
-    ).fetchone()
+        WHERE id = %s
+    """, (user_id,))
+    user_row = cursor.fetchone()
 
     if not user_row:
         conn.close()
-        return {
-            "error": "User not found"
-        }
+        return {"error": "User not found"}
 
-    latest_history = cursor.execute(
-        """
+    cursor.execute("""
         SELECT risk_level, risk_score, ai_summary, created_at
         FROM symptom_history
-        WHERE user_id = ?
+        WHERE user_id = %s
         ORDER BY id DESC
         LIMIT 1
-        """,
-        (user_id,)
-    ).fetchone()
+    """, (user_id,))
+    latest_history = cursor.fetchone()
 
     conn.close()
 
     return {
-        "id": user_row["id"],
-        "name": user_row["full_name"],
-        "email": user_row["email"],
-        "age": user_row["age"],
-        "gender": user_row["gender"],
-        "risk": latest_history["risk_level"] if latest_history else "UNKNOWN",
-        "risk_score": latest_history["risk_score"] if latest_history else None,
-        "condition": latest_history["ai_summary"] if latest_history else "No condition history"
+        "id": user_row[0],
+        "name": user_row[1],
+        "email": user_row[2],
+        "age": user_row[3],
+        "gender": user_row[4],
+        "risk": latest_history[0] if latest_history else "UNKNOWN",
+        "risk_score": latest_history[1] if latest_history else None,
+        "condition": latest_history[2] if latest_history else "No condition history"
     }
-
 
 @app.get("/report/{user_id}")
 def download_report(user_id: int):
     pdf_bytes = generate_report_pdf(user_id)
-    return StreamingResponse(BytesIO(pdf_bytes), media_type='application/pdf', headers={
-        'Content-Disposition': f'attachment; filename=HealthGuard_Report_{user_id}.pdf'
-    })
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type='application/pdf',
+        headers={
+            'Content-Disposition': f'attachment; filename=HealthGuard_Report_{user_id}.pdf'
+        }
+    )

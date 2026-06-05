@@ -93,8 +93,8 @@
 async function downloadReport() {
     const userId = localStorage.getItem('user_id');
     if (!userId) return alert('Not logged in');
-
-    const resp = await fetch(`http://127.0.0.1:8000/report/${userId}`);
+ 
+    const resp = await fetch(`https://health-guard-caq0.onrender.com/report/${userId}`);
     if (!resp.ok) return alert('Failed to generate report');
 
     const blob = await resp.blob();
