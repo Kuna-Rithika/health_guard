@@ -23,13 +23,13 @@ HealthGuard uses a team of specialized AI agents that work together to analyze s
 
 ## Tech Stack
 
--Frontend: HTML, CSS, JavaScript, Web Speech API
--Backend: FastAPI, Python, JWT Authentication
--Database: Neon PostgreSQL
--AI: Groq API, Lyzr Multi-Agent Framework
--Memory: Qdrant Vector Database
--Voice Interface: Omi
--Reporting: ReportLab PDF Generator
+- Frontend: HTML, CSS, JavaScript, Web Speech API
+- Backend: FastAPI, Python, JWT Authentication
+- Database: Neon PostgreSQL
+- AI: Groq API, Lyzr Multi-Agent Framework
+- Memory: Qdrant Vector Database
+- Voice Interface: Omi
+- Reporting: ReportLab PDF Generator
 
 ## How to Run
 
